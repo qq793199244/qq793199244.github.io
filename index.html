@@ -82,8 +82,6 @@ var themeMenus = {};
 
   themeMenus["/tags"] = "标签"; 
 
-  themeMenus["/about"] = "关于"; 
-
 </script>
 
 
@@ -117,8 +115,6 @@ var themeMenus = {};
                     
                       <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/tags">标签</a> </li>
                     
-                      <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1663"> <a class="" href="/about">关于</a> </li>
-                    
               </ul>
             </div>
           </nav>
@@ -129,33 +125,6 @@ var themeMenus = {};
 </header>
 
 
-  <div id="originBgDiv" style="background: #fff; width: 100%;">
-
-      <div style="max-height:600px; overflow: hidden;  display: flex; display: -webkit-flex; align-items: center;">
-        <img id="originBg" width="100%" alt="" src="">
-      </div>
-
-  </div>
-
-  <script>
-  function setAboutIMG(){
-      var imgUrls = "css/images/pose.jpg,https://source.unsplash.com/collection/954550/1920x1080".split(",");
-      var random = Math.floor((Math.random() * imgUrls.length ));
-      if (imgUrls[random].startsWith('http') || imgUrls[random].indexOf('://') >= 0) {
-        document.getElementById("originBg").src=imgUrls[random];
-      } else {
-        document.getElementById("originBg").src='/' + imgUrls[random];
-      }
-  }
-  bgDiv=document.getElementById("originBgDiv");
-  if(location.pathname.match('about')){
-    setAboutIMG();
-    bgDiv.style.display='block';
-  }else{
-    bgDiv.style.display='none';
-  }
-  </script>
-
 
 
   <div id="container">
@@ -164,6 +133,153 @@ var themeMenus = {};
       <div id="content" class="outer">
         
           <section id="main">
+  
+    <article id="post-differences-between-processes-and-threads"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/12/08/differences-between-processes-and-threads/">进程和线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2022/12/08/differences-between-processes-and-threads/" class="article-date">
+	  <time datetime="2022-12-08T08:51:05.000Z" itemprop="datePublished">十二月 8, 2022</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="什么是进程"><a href="#什么是进程" class="headerlink" title="什么是进程"></a>什么是进程</h4><p>进程是程序的一次执行过程，是一个动态概念，是程序在执行过程中分配和管理资源的基本单位，每一个进程都有一个自己的地址空间，至少有 5 种基本状态：初始态，执行态，等待状态，就绪状态，终止状态。</p>
+<h4 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h4><p> 线程是CPU调度和分派的基本单位，它可与同属一个进程的其他的线程共享进程所拥有的全部资源。</p>
+<h4 id="进程和线程之间的联系"><a href="#进程和线程之间的联系" class="headerlink" title="进程和线程之间的联系"></a>进程和线程之间的联系</h4><p> 线程是进程的一部分，一个线程只能属于一个进程，而一个进程可以有多个线程，但至少有一个线程。</p>
+<h4 id="进程和线程之间的区别"><a href="#进程和线程之间的区别" class="headerlink" title="进程和线程之间的区别"></a>进程和线程之间的区别</h4><p>理解它们的差别，我从资源使用的角度出发。（所谓的资源就是计算机里的中央处理器，内存，文件，网络等等）</p>
+<p><strong>根本区别：进程是操作系统资源分配的基本单位，而线程是任务调度和执行的基本单位。</strong></p>
+<p><strong>在开销方面</strong>：每个进程都有独立的代码和数据空间（程序上下文），程序之间的切换会有较大的开销；线程可以看做轻量级的进程，同一类线程共享代码和数据空间，每个线程都有自己独立的运行栈和程序计数器（PC），线程之间切换的开销小。</p>
+<p><strong>所处环境</strong>：在操作系统中能同时运行多个进程（程序）；而在同一个进程（程序）中有多个线程同时执行（通过CPU调度，在每个时间片中只有一个线程执行）</p>
+<p><strong>内存分配方面</strong>：系统在运行的时候会为每个进程分配不同的内存空间；而对线程而言，除了CPU外，系统不会为线程分配内存（线程所使用的资源来自其所属进程的资源），线程组之间只能共享资源。</p>
+<p><strong>包含关系</strong>：没有线程的进程可以看做是单线程的，如果一个进程内有多个线程，则执行过程不是一条线的，而是多条线（线程）共同完成的；线程是进程的一部分，所以线程也被称为轻权进程或者轻量级进程。</p>
+<h4 id="为什么进程切换慢，线程切换快？"><a href="#为什么进程切换慢，线程切换快？" class="headerlink" title="为什么进程切换慢，线程切换快？"></a>为什么进程切换慢，线程切换快？</h4><p><strong>虚拟内存</strong>是操作系统为每个进程提供的一种抽象，每个进程都有属于自己的、私有的、地址连续的虚拟内存，最终进程的数据及代码必然要放到物理内存上，那么必须有某种机制能记住虚拟地址空间中的某个数据被放到了哪个物理内存地址上，这就是所谓的地址空间映射，也就是虚拟内存地址与物理内存地址的映射关系。</p>
+<p>那么操作系统是如何记住这种映射关系的呢，答案就是<strong>页表</strong>，页表中记录了虚拟内存地址到物理内存地址的映射关系。有了页表就可以将虚拟地址转换为物理内存地址了，这种机制就是虚拟内存。</p>
+<p><strong>每个进程都有自己的虚拟地址空间，进程内的所有线程共享进程的虚拟地址空间</strong>。进程切换与线程切换的一个<strong>最主要区别</strong>就在于进程切换涉及到虚拟地址空间的切换而线程切换则不会。因为每个进程都有自己的虚拟地址空间，而线程是共享所在进程的虚拟地址空间的，因此同一个进程中的线程进行线程切换时不涉及虚拟地址空间的转换。</p>
+<p><strong>为什么虚拟地址空间切换会比较耗时呢？</strong></p>
+<p>进程都有自己的虚拟地址空间，把虚拟地址转换为物理地址需要查找页表，页表查找是一个很慢的过程，因此通常使用 cache 来缓存常用的地址映射，这样可以加速页表查找，这个 cache 就是快表 (TLB, Translation Lookaside Buffer)，我们不需要关心这个名字只需要知道 TLB 本质上就是一个 cache ，是用来加速页表查找的。由于每个进程都有自己的虚拟地址空间，那么显然每个进程都有自己的页表，那么当进程切换后页表也要进行切换，页表切换后 TLB 就失效了，cache 失效导致命中率降低，那么虚拟地址转换为物理地址就会变慢，表现出来的就是程序运行会变慢，而线程切换则不会导致 TLB 失效，因为线程线程无需切换地址空间，因此我们通常说线程切换要比较进程切换块，原因就在这里。</p>
+<h4 id="为什么有了进程，还要有线程？"><a href="#为什么有了进程，还要有线程？" class="headerlink" title="为什么有了进程，还要有线程？"></a>为什么有了进程，还要有线程？</h4><p>进程可以使多个程序并发执行，以提高资源的利用率和系统的吞吐量，但是其带来了一些<strong>缺点</strong>：</p>
+<ol>
+<li>进程在同一时间只能干一件事情；</li>
+<li>进程在执行的过程中如果阻塞，整个进程就会被挂起，即使进程中有些工作不依赖与等待的资源，仍然不会执行。</li>
+</ol>
+<p>基于以上的缺点，操作系统引入了比进程粒度更小的线程，作为并发执行的基本单位，从而减少程序在并发执行时所付出的时间和空间开销，提高并发性能。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a></li></ul>
+
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
+  
+    <article id="post-differences-between-http-and-https"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/12/08/differences-between-http-and-https/">HTTP 与 HTTPS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	Posted on <a href="/2022/12/08/differences-between-http-and-https/" class="article-date">
+	  <time datetime="2022-12-08T08:36:55.000Z" itemprop="datePublished">十二月 8, 2022</time>
+	</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="HTTP-与-HTTPS-有哪些区别"><a href="#HTTP-与-HTTPS-有哪些区别" class="headerlink" title="HTTP 与 HTTPS 有哪些区别"></a>HTTP 与 HTTPS 有哪些区别</h3><p>HTTP + 加密 + 认证 + 完整性保护 &#x3D; HTTPS</p>
+<ol>
+<li>HTTPS  协议需要到 CA （ Certificate Authority ，证书颁发机构）申请证书，一般免费证书较少，因而需要一定费用。</li>
+<li>HTTP 是超文本传输协议，信息是明文传输，HTTPS 则是具有安全性的 SSL 加密传输协议。</li>
+<li>HTTP 和 HTTPS 使用的是完全不同的连接方式，用的端口也不一样，前者是 80 ，后者是 443 。</li>
+<li>HTTP 的连接很简单，是无状态的；HTTPS 协议是由 SSL+HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 HTTP 协议安全。(无状态的意思是其数据包的发送、传输和接收都是相互独立的。无连接的意思是指通信双方都不长久的维持对方的任何信息。)</li>
+</ol>
+<h3 id="不同加密方式"><a href="#不同加密方式" class="headerlink" title="不同加密方式"></a>不同加密方式</h3><ul>
+<li>共享密钥加密（对称密钥加密）：加密和解密用同一个密钥。</li>
+<li>公开密钥加密：使用一对非对称密钥（私钥、公钥），发送方使用对方的公钥加密，对方收到加密信息，用自己的私钥进行解密。</li>
+</ul>
+<h3 id="HTTPS-加密机制"><a href="#HTTPS-加密机制" class="headerlink" title="HTTPS 加密机制"></a>HTTPS 加密机制</h3><p>HTTPS 采用混合加密机制，在交换密钥环节使用公开密钥加密方式（非对称密钥加密），之后的建立通信交换报文阶段使用共享密钥加密方式（对称密钥加密）。</p>
+<h3 id="HTTPS-通信步骤"><a href="#HTTPS-通信步骤" class="headerlink" title="HTTPS 通信步骤"></a>HTTPS 通信步骤</h3><p><img src="https://raw.githubusercontent.com/qq793199244/qq793199244.github.io/main/images/networks/HTTPS%E9%80%9A%E4%BF%A1.png" alt="img"><br>步骤 1： 客户端通过发送 Client Hello 报文开始 SSL 通信。报文中包含客户端支持的 SSL 的指定版本、加密组件（Cipher Suite）列表（所使用的加密算法及密钥长度等）。</p>
+<p>步骤 2： 服务器可进行 SSL 通信时，会以 Server Hello 报文作为应答。和客户端一样，在报文中包含 SSL 版本以及加密组件。服务器的加密组件内容是从接收到的客户端加密组件内筛选出来的。</p>
+<p>步骤 3： 之后服务器发送 Certificate 报文。报文中包含公开密钥证书。</p>
+<p>步骤 4： 最后服务器发送 Server Hello Done 报文通知客户端，最初阶段的 SSL 握手协商部分结束。</p>
+<p>步骤 5： SSL 第一次握手结束之后，客户端以 Client Key Exchange 报文作为回应。报文中包含通信加密中使用的一种被称为 Pre-mastersecret 的随机密码串。该报文已用步骤 3 中的公开密钥进行加密。</p>
+<p>步骤 6： 接着客户端继续发送 Change Cipher Spec 报文。该报文会提示服务器，在此报文之后的通信会采用 Pre-master secret 密钥加密。</p>
+<p>步骤 7： 客户端发送 Finished 报文。该报文包含连接至今全部报文的整体校验值。这次握手协商是否能够成功，要以服务器是否能够正确解密该报文作为判定标准。</p>
+<p>步骤 8： 服务器同样发送 Change Cipher Spec 报文。</p>
+<p>步骤 9： 服务器同样发送 Finished 报文。</p>
+<p>步骤 10： 服务器和客户端的 Finished 报文交换完毕之后，SSL 连接就算建立完成。当然通信会受到 SSL 的保护。从此处开始进行应用层协议的通信，即发送 HTTP 请求。</p>
+<p>步骤 11： 应用层协议通信，即发送 HTTP 响应。</p>
+<p>步骤 12： 最后由客户端断开连接。断开连接时，发送 close_notify 报文。上图做了一些省略，这步之后再发送 TCP FIN 报文来关闭与 TCP的通信。</p>
+<h3 id="认证过程"><a href="#认证过程" class="headerlink" title="认证过程"></a>认证过程</h3><p>① 服务器把自己的公开密钥登录至数字证书认证机构。</p>
+<p>② 数字证书认证机构用自己的私有密钥对服务器的公开密钥做数字签名，并颁发数字证书。</p>
+<p>③ 客户端拿到服务器的公钥证书后，使用数字证书认证机构的公开密钥，向数字证书认证机构进行验证，以确认服务器公开密钥的真实性。</p>
+<p>④ 客户端使用服务器的公开密钥对报文加密后发送。</p>
+<p>⑤ 服务器用私有密钥对报文进行解密。</p>
+
+      
+    </div>
+    <footer class="entry-meta entry-footer">
+      
+	<span class="ico-folder"></span>
+    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+
+      
+  <span class="ico-tags"></span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a></li></ul>
+
+      
+            
+      
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+    
+
   
     <article id="post-http-status-code"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="clearfix post-1016 post type-post status-publish format-standard has-post-thumbnail hentry category-template-2 category-uncategorized tag-codex tag-edge-case tag-featured-image tag-image tag-template">
@@ -256,9 +372,9 @@ var themeMenus = {};
     <form class="search-form">
         <label style="width: 75%;">
             <span class="screen-reader-text">Search for:</span>
-            <input type="search" class="search-field" style="height: 42px;" placeholder=" 搜索…" value="" name="s" title="Search for:">
+            <input type="search" class="search-field" style="height: 42px;" placeholder=" 站内搜索…" value="" name="s" title="Search for:">
         </label>
-        <input type="submit" class="search-form-submit" value="搜索">
+        <input type="submit" class="search-form-submit" value="站内搜索">
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
@@ -306,6 +422,10 @@ var themeMenus = {};
      			  <li><a target="_blank" rel="noopener" href="https://github.com/qq793199244" title="Github"><i class="fa fa-github" aria-hidden="true"></i></a></li> 
           
    		
+          
+            <li><a href="mailto:793199244@qq.com?subject=请联系我&body=我能帮你什么" title="email"><i class="fa fa-envelope" aria-hidden="true"></i></a></li> 
+          
+   		
    		</ul>
 
 
@@ -338,6 +458,30 @@ var themeMenus = {};
               <div class="widget-entry-summary" style="margin: 0;">
             
 
+              <h6 style="margin: 0;"><a href="/2022/12/08/differences-between-processes-and-threads/">进程和线程</a></h6>
+              <span>十二月 8, 2022</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
+              <h6 style="margin: 0;"><a href="/2022/12/08/differences-between-http-and-https/">HTTP 与 HTTPS</a></h6>
+              <span>十二月 8, 2022</span>
+            </div>
+
+          </li>
+        
+          <li class="clearfix">
+
+            
+              <div class="widget-entry-summary" style="margin: 0;">
+            
+
               <h6 style="margin: 0;"><a href="/2022/12/07/http-status-code/">常见的 HTTP 状态码的含义</a></h6>
               <span>十二月 7, 2022</span>
             </div>
@@ -353,7 +497,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><span class="category-list-count">2</span></li></ul>
     </div>
   </div>
 
@@ -363,7 +507,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8A%B6%E6%80%81%E7%A0%81/" rel="tag">状态码</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8A%A0%E5%AF%86/" rel="tag">加密</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8A%B6%E6%80%81%E7%A0%81/" rel="tag">状态码</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag">进程</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -373,7 +517,7 @@ var themeMenus = {};
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/%E7%8A%B6%E6%80%81%E7%A0%81/" style="font-size: 10px;">状态码</a>
+      <a href="/tags/HTTP/" style="font-size: 20px;">HTTP</a> <a href="/tags/%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">加密</a> <a href="/tags/%E7%8A%B6%E6%80%81%E7%A0%81/" style="font-size: 10px;">状态码</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 10px;">线程</a> <a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 10px;">进程</a>
     </div>
   </div>
 
@@ -383,7 +527,7 @@ var themeMenus = {};
     <h3 class="widget-title">归档</h3>
 
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -434,8 +578,6 @@ var themeMenus = {};
     <a href="/categories" class="mobile-nav-link">Categories</a>
   
     <a href="/tags" class="mobile-nav-link">Tags</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
   
 </nav> -->
     
